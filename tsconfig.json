@@ -21,6 +21,8 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
+    "src",
+    "src/.env.local",
+    "src/declaration.d.ts"
   ]
 }
