@@ -1,10 +1,15 @@
 import React, { useEffect } from 'react'
-import PizzaItem from './components/PizzaItem'
+import { Route } from 'react-router';
+import { Routes } from 'react-router-dom';
+import HomeMenu from './components/HomeMenu';
 import { useActions } from './hooks/useActions';
 import { useTypedSelector } from './hooks/useTypedSelector';
+import Basket from './pages/Basket';
+import Home from './pages/Home';
 
 function App() {
   const { pizzas, ingredients, loading } = useTypedSelector(state => state.pizza)
+  const { count: basketCount } = useTypedSelector(state => state.basket)
   const { fetchPizzas, fetchIngredients } = useActions()
 
   useEffect(() => {
@@ -18,15 +23,29 @@ function App() {
 
   return (
     <div className='bg-slate-100 py-4 px-4'>
-      <div className='grid grid-cols-4 gap-4'>
-        {pizzas?.length > 0 && pizzas.map(pizza => (
-          <PizzaItem
-            pizza={pizza}
-            ingredients={ingredients}
-            key={pizza.id}
-          />
-        ))}
-      </div>
+      <Routes>
+        <Route
+          path='/'
+          element={
+            <>
+              <HomeMenu basketCount={basketCount} />
+              <Home
+                ingredients={ingredients}
+                pizzas={pizzas}
+              />
+            </>
+          }
+        />
+        <Route
+          path='/basket'
+          element={
+            <>
+              <HomeMenu basketCount={basketCount} />
+              <Basket />
+            </>
+          }
+        />
+      </Routes>
     </div>
   );
 }

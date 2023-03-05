@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { IIngredient, IPizza } from '../types/Pizza/IPizza'
 import SelectButton from '../UI/SelectButton'
 import AdditionalIngredients from './AdditionalIngredients'
@@ -6,21 +6,25 @@ import { ReactComponent as CheeseIcon } from '../assets/cheese.svg'
 import { ReactComponent as ArrowDown } from '../assets/arrow.svg'
 import PizzaIcon from '../assets/pizza.svg'
 import AddButton from '../UI/AddButton'
-
-//Разделить на компоненты + удаление доп ингр
+import Modal from '../UI/Modal'
+import { IBasketItem } from '../types/Basket/IBasket'
 
 interface IPizzaProps {
   pizza: IPizza,
-  ingredients: IIngredient[]
+  ingredients: IIngredient[],
+  addPizzaToBasket: (pizza: IBasketItem) => void
 }
 
-const PizzaItem = ({ pizza, ingredients }: IPizzaProps) => {
+const PizzaItem = ({ pizza, ingredients, addPizzaToBasket }: IPizzaProps) => {
   const [pizzaInfoVisible, setPizzaInfoVisible] = useState(false)
   const [addIngredientsVisible, setAddIngredientsVisible] = useState(false)
   const [selectedSize, setSelectedSize] = useState(pizza.sizes[0])
   const [selectedDough, setSelectedDough] = useState(pizza.dough[0])
   const [selectDoughVisible, setSelectDoughVisible] = useState(false)
   const [addedIngredients, setAddedIngredients] = useState<IIngredient[]>([])
+  const [totalPrice, setTotalPrice] = useState(pizza.sizesPrice[0])
+  const [addedIngrSum, setAddedIngrSum] = useState(0)
+
 
   const handleInfoVisible = () => {
     setPizzaInfoVisible(!pizzaInfoVisible)
@@ -45,27 +49,36 @@ const PizzaItem = ({ pizza, ingredients }: IPizzaProps) => {
 
   const addToBasket = () => {
     handleInfoVisible()
-  }
-
-  const changeIngredients = (name: string) => {
-    const currentIng = addedIngredients.find(i => i.name === name)
-    if (currentIng) {
-      const otherIngr = addedIngredients.filter(i => i.name !== name)
-      if (currentIng.count < 3) {
-        setAddedIngredients([...otherIngr, { ...currentIng, count: currentIng.count + 1 }])
-      } else {
-        setAddedIngredients([...otherIngr])
-      }
-    } else {
-      const currentPrice = ingredients.find(i => i.name === name)?.price || 79
-      setAddedIngredients([...addedIngredients, { name, price: currentPrice, count: 1 }])
+    setAddedIngrSum(0)
+    setAddedIngredients([])
+    setSelectedSize(pizza.sizes[0])
+    setSelectedDough(pizza.dough[0])
+    const res = {
+      name: pizza.name,
+      size: selectedSize,
+      dough: selectedDough,
+      ingredients: pizza.ingredients,
+      addedIngredients: addedIngredients,
+      totalPrice: totalPrice
     }
+    console.log('add ', res)
+
+    addPizzaToBasket(res)
   }
 
-  const deleteIngredient = (name: string) => {
-    const otherIngr = addedIngredients.filter(i => i.name !== name)
-    setAddedIngredients([...otherIngr])
+  const changeAddedIngredients = (addedIngr: IIngredient[]) => {
+    setAddedIngredients(addedIngr)
   }
+
+  const updatePrice = (addedPrice: number) => {
+    handleAddIngredientsVisible()
+    setAddedIngrSum(addedPrice)
+  }
+
+  useEffect(() => {
+    const currentSizeIndex = pizza.sizes.findIndex(size => size === selectedSize) || 0
+    setTotalPrice(pizza.sizesPrice[currentSizeIndex] + addedIngrSum)
+  }, [selectedSize, addedIngrSum])
 
   return (
     <div className='relative px-4 py-4 border flex flex-col items-center rounded-2xl bg-white'>
@@ -90,12 +103,15 @@ const PizzaItem = ({ pizza, ingredients }: IPizzaProps) => {
               </div>
 
               {addIngredientsVisible && (
-                <AdditionalIngredients
-                  ingredients={ingredients}
-                  addedIngredients={addedIngredients}
-                  onAdd={changeIngredients}
-                  deleteIngredient={deleteIngredient}
-                />
+                <Modal>
+                  <AdditionalIngredients
+                    ingredients={ingredients}
+                    pizzaIngredients={pizza.ingredients}
+                    addedIngredients={addedIngredients}
+                    changeAddedIngredients={changeAddedIngredients}
+                    updatePrice={updatePrice}
+                  />
+                </Modal>
               )}
 
               <div className='w-full flex justify-between text-center font-medium rounded-2xl bg-gray-200 mb-4'>
@@ -104,7 +120,7 @@ const PizzaItem = ({ pizza, ingredients }: IPizzaProps) => {
                     key={size}
                     className={`
                       ${selectedSize === size ? 'bg-gray-500 text-white' : 'text-gray-700'} 
-                      flex-1 px-4 py-1 duration-700 transition-colors rounded-2xl`}
+                      flex-1 px-4 py-1 duration-500 transition-colors rounded-2xl`}
                     onClick={() => changeSize(size)}
                   >
                     {size} см
@@ -146,7 +162,7 @@ const PizzaItem = ({ pizza, ingredients }: IPizzaProps) => {
                 )}
               </div>
 
-              <AddButton price={712} onClick={addToBasket} />
+              <AddButton title='В корзину' price={totalPrice} onClick={addToBasket} />
             </div>
           )
           : (
