@@ -7,6 +7,8 @@ import { ReactComponent as ArrowDown } from '../assets/arrow.svg'
 import PizzaIcon from '../assets/pizza.svg'
 import AddButton from '../UI/AddButton'
 
+//Разделить на компоненты + удаление доп ингр
+
 interface IPizzaProps {
   pizza: IPizza,
   ingredients: IIngredient[]
