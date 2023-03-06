@@ -8,3 +8,9 @@ export interface IBasketItem {
   addedIngredients: IIngredient[],
   totalPrice: number
 }
+
+export interface IBasketSortedItem {
+  item: IBasketItem,
+  count: number,
+  allSum: number,
+}

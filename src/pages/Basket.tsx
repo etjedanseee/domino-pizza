@@ -1,9 +1,12 @@
 import React from 'react'
 import { useTypedSelector } from '../hooks/useTypedSelector'
+import { sortBasketItems } from '../utils/sortBasketItems'
 
 
 const Basket = () => {
   const { count, items, totalSum } = useTypedSelector(state => state.basket)
+
+  const sortedItems = sortBasketItems(items)
 
   return (
     <div className='pt-14'>

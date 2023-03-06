@@ -53,6 +53,7 @@ const PizzaItem = ({ pizza, ingredients, addPizzaToBasket }: IPizzaProps) => {
     setAddedIngredients([])
     setSelectedSize(pizza.sizes[0])
     setSelectedDough(pizza.dough[0])
+
     const res = {
       name: pizza.name,
       size: selectedSize,
@@ -61,7 +62,6 @@ const PizzaItem = ({ pizza, ingredients, addPizzaToBasket }: IPizzaProps) => {
       addedIngredients: addedIngredients,
       totalPrice: totalPrice
     }
-    console.log('add ', res)
 
     addPizzaToBasket(res)
   }
