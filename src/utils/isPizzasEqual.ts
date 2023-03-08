@@ -6,7 +6,7 @@ export const isPizzasEqual = (p1: IBasketItem & GenericObject, p2: IBasketItem &
       if (!isArraysEqual(p1[key], p2[key])) {
         return false
       }
-    } else if (p1[key] !== p2[key] && typeof p1[key][0] !== 'object') {
+    } else if (p1[key] !== p2[key] && typeof p1[key][0] !== 'object' && key !== 'id') {
       return false
     }
   }

@@ -55,6 +55,7 @@ const PizzaItem = ({ pizza, ingredients, addPizzaToBasket }: IPizzaProps) => {
     setSelectedDough(pizza.dough[0])
 
     const res = {
+      id: Date.now(),
       name: pizza.name,
       size: selectedSize,
       dough: selectedDough,

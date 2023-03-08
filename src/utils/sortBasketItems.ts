@@ -2,7 +2,7 @@ import { IBasketItem, IBasketSortedItem } from './../types/Basket/IBasket';
 import { isPizzasEqual } from './isPizzasEqual';
 
 export const sortBasketItems = (items: IBasketItem[]): IBasketSortedItem[] => {
-  if (items.length < 1) {
+  if (!items.length) {
     return []
   }
   const res: IBasketSortedItem[] = [{
@@ -34,6 +34,6 @@ export const sortBasketItems = (items: IBasketItem[]): IBasketSortedItem[] => {
     }
   }
 
-  // console.log('res', res)
+  console.log('res', res)
   return res
 }
