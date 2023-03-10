@@ -3,6 +3,7 @@ import { IIngredient } from './../Pizza/IPizza';
 export interface IBasketItem {
   id: number,
   name: string,
+  image: string,
   size: number,
   dough: string,
   ingredients: string[],

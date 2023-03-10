@@ -11,8 +11,6 @@ export const sortBasketItems = (items: IBasketItem[]): IBasketSortedItem[] => {
     allSum: items[0].totalPrice
   }]
 
-  // console.log('items', items)
-
   for (let i = 1; i < items.length; i++) {
     let isFindEqual = false
     for (let j = 0; j < res.length; j++) {
@@ -34,6 +32,6 @@ export const sortBasketItems = (items: IBasketItem[]): IBasketSortedItem[] => {
     }
   }
 
-  console.log('res', res)
+  // console.log('res', res)
   return res
 }

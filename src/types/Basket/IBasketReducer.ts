@@ -18,7 +18,7 @@ interface addItemToBasket {
 
 interface deleteBasketItem {
   type: BasketActionTypes.DELETE_ITEM,
-  payload: { name: string, countDelete: number }
+  payload: { id: number, price: number }
 }
 
 export type IBasketAction = addItemToBasket | deleteBasketItem

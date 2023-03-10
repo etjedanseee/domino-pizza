@@ -15,6 +15,15 @@ export const basketReducer = (state = initialState, action: IBasketAction): IBas
         totalSum: state.totalSum + action.payload.totalPrice
       }
     }
+    case BasketActionTypes.DELETE_ITEM: {
+      const filteredItems = state.items.filter(item => item.id !== action.payload.id)
+      return {
+        ...state,
+        items: filteredItems,
+        count: state.count - 1 || 0,
+        totalSum: state.totalSum - action.payload.price
+      }
+    }
     default: return state
   }
 }

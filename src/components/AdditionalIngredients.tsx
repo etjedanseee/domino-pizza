@@ -27,16 +27,18 @@ const AdditionalIngredients = ({ pizzaIngredients, ingredients, addedIngredients
         setPrice(prev => prev - (currentIng.count * currentIng.price))
       }
     } else {
-      const currentPrice = ingredients.find(i => i.name === name)?.price || 79
-      changeAddedIngredients([...addedIngredients, { name, price: currentPrice, count: 1 }])
-      setPrice(prev => prev + currentPrice)
+      const currentIng = ingredients.find(i => i.name === name) || ingredients[0]
+      if (currentIng.count > 0) {
+        changeAddedIngredients([...addedIngredients, { name, price: currentIng.price, count: 1 }])
+        setPrice(prev => prev + currentIng.price)
+      }
     }
   }
 
   const handleDeleteIngredient = (e: MouseEvent<HTMLDivElement>, name: string) => {
     e.stopPropagation()
     const otherIngr = addedIngredients.filter(i => i.name !== name)
-    const currentIngr = addedIngredients.find(i => i.name === name) || { count: 3, price: 79 }
+    const currentIngr = addedIngredients.find(i => i.name === name) || ingredients[0]
     changeAddedIngredients([...otherIngr])
     setPrice(prev => prev - (currentIngr.count * currentIngr.price))
   }
@@ -64,7 +66,8 @@ const AdditionalIngredients = ({ pizzaIngredients, ingredients, addedIngredients
             rounded-2xl text-sm font-medium relative`}
             onClick={() => handleAddIngredient(i.name)}
           >
-            <div className={`${addedIngredients.find(ing => ing.name === i.name) ? 'mr-12' : ''} px-4 py-1`}>
+            <div className={`${addedIngredients.find(ing => ing.name === i.name) ? 'mr-10' : ''} 
+            ${ingredients.find(ing => ing.name === i.name)?.count === 0 ? 'line-through' : ''} px-4 py-1`}>
               {i.name}
             </div>
             {addedIngredients.find(ing => ing.name === i.name) && (

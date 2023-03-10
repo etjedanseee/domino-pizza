@@ -7,15 +7,14 @@ import { ReactComponent as ArrowDown } from '../assets/arrow.svg'
 import PizzaIcon from '../assets/pizza.svg'
 import AddButton from '../UI/AddButton'
 import Modal from '../UI/Modal'
-import { IBasketItem } from '../types/Basket/IBasket'
+import { useActions } from '../hooks/useActions'
 
 interface IPizzaProps {
   pizza: IPizza,
   ingredients: IIngredient[],
-  addPizzaToBasket: (pizza: IBasketItem) => void
 }
 
-const PizzaItem = ({ pizza, ingredients, addPizzaToBasket }: IPizzaProps) => {
+const PizzaItem = ({ pizza, ingredients }: IPizzaProps) => {
   const [pizzaInfoVisible, setPizzaInfoVisible] = useState(false)
   const [addIngredientsVisible, setAddIngredientsVisible] = useState(false)
   const [selectedSize, setSelectedSize] = useState(pizza.sizes[0])
@@ -25,6 +24,7 @@ const PizzaItem = ({ pizza, ingredients, addPizzaToBasket }: IPizzaProps) => {
   const [totalPrice, setTotalPrice] = useState(pizza.sizesPrice[0])
   const [addedIngrSum, setAddedIngrSum] = useState(0)
 
+  const { addPizzaToBasket, updateIngredients } = useActions()
 
   const handleInfoVisible = () => {
     setPizzaInfoVisible(!pizzaInfoVisible)
@@ -48,15 +48,10 @@ const PizzaItem = ({ pizza, ingredients, addPizzaToBasket }: IPizzaProps) => {
   }
 
   const addToBasket = () => {
-    handleInfoVisible()
-    setAddedIngrSum(0)
-    setAddedIngredients([])
-    setSelectedSize(pizza.sizes[0])
-    setSelectedDough(pizza.dough[0])
-
     const res = {
       id: Date.now(),
       name: pizza.name,
+      image: pizza.image,
       size: selectedSize,
       dough: selectedDough,
       ingredients: pizza.ingredients,
@@ -64,7 +59,14 @@ const PizzaItem = ({ pizza, ingredients, addPizzaToBasket }: IPizzaProps) => {
       totalPrice: totalPrice
     }
 
+    updateIngredients(ingredients, addedIngredients, false)
     addPizzaToBasket(res)
+
+    handleInfoVisible()
+    setAddedIngrSum(0)
+    setAddedIngredients([])
+    setSelectedSize(pizza.sizes[0])
+    setSelectedDough(pizza.dough[0])
   }
 
   const changeAddedIngredients = (addedIngr: IIngredient[]) => {

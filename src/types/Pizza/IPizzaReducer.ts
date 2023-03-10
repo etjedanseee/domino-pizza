@@ -27,4 +27,5 @@ interface setIngredients {
   payload: IIngredient[]
 }
 
+
 export type PizzaAction = setLoading | setIngredients | setPizzas

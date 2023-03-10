@@ -10,3 +10,12 @@ export const addPizzaToBasket = (item: IBasketItem) => {
     });
   };
 }
+
+export const decrementBasketItem = (id: number, price: number) => {
+  return (dispatch: Dispatch<IBasketAction>) => {
+    dispatch({
+      type: BasketActionTypes.DELETE_ITEM,
+      payload: { id, price }
+    })
+  }
+}
