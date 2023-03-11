@@ -10,7 +10,7 @@ interface HomeProps {
 const Home = ({ pizzas, ingredients }: HomeProps) => {
 
   return (
-    <div className='pt-14 grid grid-cols-4 gap-4'>
+    <div className='container mx-auto py-20 grid grid-cols-4 gap-4'>
       {pizzas?.length > 0 && pizzas.map(pizza => (
         <PizzaItem
           pizza={pizza}

@@ -84,16 +84,16 @@ const PizzaItem = ({ pizza, ingredients }: IPizzaProps) => {
   }, [selectedSize, addedIngrSum])
 
   return (
-    <div className='relative px-4 py-4 border flex flex-col items-center rounded-2xl bg-white'>
+    <div className='relative px-4 py-4 border flex flex-col justify-between rounded-2xl bg-white min-h-[400px]'>
       <img
         src={pizza.image}
         alt={pizza.name}
         onClick={handleInfoVisible}
       />
-      <div>
+      <div className='flex-1 flex flex-col justify-end'>
         {pizzaInfoVisible
           ? (
-            <div className='absolute left-0 bottom-0 px-4 py-4 bg-opacity-90 bg-white'>
+            <div className='absolute left-0 bottom-0 w-full px-4 py-4 bg-opacity-90 bg-white'>
               <div className='text-gray-700 text-xl font-medium mb-1'>{pizza.name}</div>
               <div className='text-sm text-gray-500 mb-4'>{pizza.ingredients.join(', ')}</div>
 
@@ -172,9 +172,11 @@ const PizzaItem = ({ pizza, ingredients }: IPizzaProps) => {
             <>
               <div className='text-gray-700 text-xl font-medium mb-1'>{pizza.name}</div>
               <div className='text-sm text-gray-500 mb-5'>{pizza.ingredients.join(', ')}</div>
-              <div className='flex items-center justify-between'>
-                <SelectButton onClick={handleInfoVisible} />
-                <div className='font-bold text-lg'>от {pizza.sizesPrice[0]} ₽</div>
+              <div className='flex-1 flex items-end'>
+                <div className='flex-1 flex items-center justify-between'>
+                  <SelectButton onClick={handleInfoVisible} />
+                  <div className='font-bold text-lg'>от {pizza.sizesPrice[0]} ₽</div>
+                </div>
               </div>
             </>
           )}

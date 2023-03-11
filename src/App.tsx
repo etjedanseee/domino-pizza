@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Route } from 'react-router';
 import { Routes } from 'react-router-dom';
-import HomeMenu from './components/HomeMenu';
+import HomeMenu from './components/HeaderMenu';
 import { useActions } from './hooks/useActions';
 import { useTypedSelector } from './hooks/useTypedSelector';
 import Basket from './pages/Basket';
@@ -28,7 +28,7 @@ function App() {
           path='/'
           element={
             <>
-              <HomeMenu basketCount={basketCount} />
+              <HomeMenu basketCount={basketCount} isGoBackVisible={false} />
               <Home
                 ingredients={ingredients}
                 pizzas={pizzas}
@@ -40,7 +40,7 @@ function App() {
           path='/basket'
           element={
             <>
-              <HomeMenu basketCount={basketCount} />
+              <HomeMenu basketCount={basketCount} isGoBackVisible={true} />
               <Basket />
             </>
           }
