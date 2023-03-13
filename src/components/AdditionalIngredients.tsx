@@ -45,7 +45,7 @@ const AdditionalIngredients = ({ pizzaIngredients, ingredients, addedIngredients
 
   return (
     <div className='max-w-lg bg-white p-4 rounded-2xl'>
-      <div className='text-sm mb-5 font-medium uppercase'>Ингредиенты</div>
+      <div className='text-sm mb-3 font-medium uppercase'>Ингредиенты</div>
       <div className='flex flex-wrap gap-2 mb-5'>
         {pizzaIngredients.map(ing => (
           <div
@@ -67,7 +67,7 @@ const AdditionalIngredients = ({ pizzaIngredients, ingredients, addedIngredients
             onClick={() => handleAddIngredient(i.name)}
           >
             <div className={`${addedIngredients.find(ing => ing.name === i.name) ? 'mr-10' : ''} 
-            ${ingredients.find(ing => ing.name === i.name)?.count === 0 ? 'line-through' : ''} px-4 py-1`}>
+            ${ingredients.find(ing => ing.name === i.name)?.count === 0 ? 'line-through' : ''} px-4 py-1 select-none`}>
               {i.name}
             </div>
             {addedIngredients.find(ing => ing.name === i.name) && (
