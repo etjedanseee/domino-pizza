@@ -1,8 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PizzaItem from '../components/PizzaItem'
 import { IIngredient, IPizza } from '../types/Pizza/IPizza'
-import Modal from '../UI/Modal'
-import AuthPage from './AuthPage'
 
 interface HomeProps {
   pizzas: IPizza[],
@@ -20,9 +18,6 @@ const Home = ({ pizzas, ingredients }: HomeProps) => {
           key={pizza.id}
         />
       ))}
-      <Modal>
-        <AuthPage />
-      </Modal>
     </div>
   )
 }

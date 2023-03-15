@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useForm } from "react-hook-form";
+import { useActions } from '../hooks/useActions';
 import { supabase } from '../supabaseClient'
 import AddButton from '../UI/AddButton';
 import { regEmail, regPhone } from '../utils/consts';
@@ -7,27 +8,77 @@ import { regEmail, regPhone } from '../utils/consts';
 interface FormData {
   email: string,
   password: string,
-  phone?: string
+  phone: string
+}
+
+interface singInData {
+  email: string,
+  password: string
+}
+
+interface AuthPageProps {
+  onClose: () => void
 }
 
 type loginOrRegistrationType = 'login' | 'registration'
 
-const AuthPage = () => {
+const AuthPage = ({ onClose }: AuthPageProps) => {
   const [loginOrRegistration, setLoginOrRegistration] = useState<loginOrRegistrationType>('login')
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
 
+  const { setUser } = useActions()
+
   const onSubmit = handleSubmit(data => {
     if (loginOrRegistration === 'login') {
-      console.log('login', data)
+      singIn(data)
     } else {
-      console.log('registr', data)
+      singUp(data)
     }
     reset()
   });
 
   const handleLoginOrRegistr = (type: loginOrRegistrationType) => {
     setLoginOrRegistration(type)
+    reset()
+  }
+
+  const singUp = async (singUpData: FormData) => {
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: singUpData.email,
+        password: singUpData.password,
+        options: { data: { phone: singUpData.phone } }
+      })
+      if (error) {
+        throw new Error(error.message)
+      }
+      //в случае если нет ошибки(прям тут) показать что нужно подтвердить почту и возможно закрывать форму
+      console.log('singUp data', data)
+    } catch (e) {
+      console.log('singUp error', e)
+    }
+  }
+
+  const singIn = async (singInData: singInData) => {
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: singInData.email,
+        password: singInData.password,
+      })
+      if (error) {
+        throw new Error(error.message)
+      }
+      console.log('singIp data', data)
+      //в случае если нет ошибки(прям тут) показать что вошли успешно
+      onClose()
+      //придумать какие поля нужны (например токен) и передать их
+      // setUser(data)
+    } catch (e) {
+      //сделать состояние в которое поместить неправильный адрес или пароль
+      console.log('singIn error', e)
+    }
+
   }
 
   return (
@@ -72,7 +123,7 @@ const AuthPage = () => {
               placeholder='Введите номер телефона'
               className='outline-none placeholder:text-gray-600 text-lg border-2 border-gray-500 w-full rounded-md px-4 py-1'
             />
-            {errors.phone?.type === 'required' && <div className='text-red-500 text-sm'>Номер обязательна</div>}
+            {errors.phone?.type === 'required' && <div className='text-red-500 text-sm'>Номер обязателен</div>}
             {errors.phone?.type === 'pattern' && <div className='text-red-500 text-sm'>Введите корректный номер</div>}
           </div>
         )}

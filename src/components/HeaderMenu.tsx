@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { ReactComponent as BasketIcon } from '../assets/basket.svg'
 import { ReactComponent as ArrowBackIcon } from '../assets/arrow-back.svg'
+import { ReactComponent as AuthIcon } from '../assets/user.svg'
+import Modal from '../UI/Modal'
+import AuthPage from '../pages/AuthPage'
 
 interface HeaderMenuProps {
   basketCount: number,
@@ -9,6 +12,12 @@ interface HeaderMenuProps {
 }
 
 const HeaderMenu = ({ basketCount, isGoBackVisible }: HeaderMenuProps) => {
+  const [isModalVisible, setIsModalVisible] = useState(false)
+
+  const handleModalVisible = () => {
+    setIsModalVisible(prev => !prev)
+  }
+
   return (
     <div className='fixed z-50 top-0 left-0 w-full bg-zinc-900 '>
       <div className='container mx-auto flex justify-between items-center px-5 py-3'>
@@ -23,6 +32,16 @@ const HeaderMenu = ({ basketCount, isGoBackVisible }: HeaderMenuProps) => {
             {basketCount > 0 && basketCount}
           </div>
         </NavLink>
+
+        <div onClick={handleModalVisible}>
+          <AuthIcon className='h-10 w-10 fill-white' />
+        </div>
+
+        {isModalVisible && (
+          <Modal onClose={handleModalVisible}>
+            <AuthPage onClose={handleModalVisible} />
+          </Modal>
+        )}
       </div>
     </div>
   )

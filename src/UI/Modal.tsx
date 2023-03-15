@@ -1,16 +1,24 @@
 import React, { ReactNode } from 'react'
 
 interface ModalProps {
-  children: ReactNode
+  children: ReactNode,
+  onClose: () => void,
 }
 
-const Modal = ({ children }: ModalProps) => {
+const Modal = ({ children, onClose }: ModalProps) => {
+
+  // const handleCloseModal = (): void => {
+  //   onClose()
+  // }
 
   return (
     <div
       className='fixed w-screen h-screen top-0 left-0 bg-black bg-opacity-80 z-50 flex justify-center items-center overflow-y-auto'
+      onClick={onClose}
     >
-      {children}
+      <div onClick={e => e.stopPropagation()}>
+        {children}
+      </div>
     </div>
   )
 }

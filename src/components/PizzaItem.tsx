@@ -106,7 +106,7 @@ const PizzaItem = ({ pizza, ingredients }: IPizzaProps) => {
               </div>
 
               {addIngredientsVisible && (
-                <Modal>
+                <Modal onClose={handleAddIngredientsVisible}>
                   <AdditionalIngredients
                     ingredients={ingredients}
                     pizzaIngredients={pizza.ingredients}
