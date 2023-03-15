@@ -7,6 +7,7 @@ import { useTypedSelector } from './hooks/useTypedSelector';
 import Basket from './pages/Basket';
 import Home from './pages/Home';
 
+//добавить юсэффект где брать с куки данные о авторизации и если их нет редирект на регистр/вход
 function App() {
   const { pizzas, ingredients, loading } = useTypedSelector(state => state.pizza)
   const { count: basketCount } = useTypedSelector(state => state.basket)
