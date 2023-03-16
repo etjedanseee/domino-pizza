@@ -24,12 +24,14 @@ type loginOrRegistrationType = 'login' | 'registration'
 
 const AuthPage = ({ onClose }: AuthPageProps) => {
   const [loginOrRegistration, setLoginOrRegistration] = useState<loginOrRegistrationType>('login')
+  const [authError, setAuthError] = useState('')
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
 
   const { setUser } = useActions()
 
   const onSubmit = handleSubmit(data => {
+    setAuthError('')
     if (loginOrRegistration === 'login') {
       singIn(data)
     } else {
@@ -57,6 +59,7 @@ const AuthPage = ({ onClose }: AuthPageProps) => {
       console.log('singUp data', data)
     } catch (e) {
       console.log('singUp error', e)
+      setAuthError('Ошибка при регистрации')
     }
   }
 
@@ -69,13 +72,13 @@ const AuthPage = ({ onClose }: AuthPageProps) => {
       if (error) {
         throw new Error(error.message)
       }
-      console.log('singIp data', data)
+      console.log('singIn data', data)
       //в случае если нет ошибки(прям тут) показать что вошли успешно
       onClose()
       //придумать какие поля нужны (например токен) и передать их
       // setUser(data)
     } catch (e) {
-      //сделать состояние в которое поместить неправильный адрес или пароль
+      setAuthError('Неправильный адрес или пароль')
       console.log('singIn error', e)
     }
 
@@ -105,6 +108,10 @@ const AuthPage = ({ onClose }: AuthPageProps) => {
       </div>
 
       <form className='w-full py-4 px-4'>
+        {authError.length > 0 && (
+          <div className='text-red-500 mb-4 font-medium'>{authError}</div>
+        )}
+
         <div className='mb-4'>
           <input
             {...register("email", { required: true, pattern: regEmail })}

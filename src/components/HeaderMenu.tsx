@@ -26,12 +26,6 @@ const HeaderMenu = ({ basketCount, isGoBackVisible }: HeaderMenuProps) => {
             <ArrowBackIcon className='h-12 w-12 rotate-180 fill-white px-2 bg-gray-500 rounded-full' />
           </NavLink>
         )}
-        <NavLink to='/basket' className='relative'>
-          <BasketIcon className='h-12 w-12 p-2 bg-red-500 rounded-full fill-white' />
-          <div className='absolute -top-1 -right-2 bg-white text-red-500 px-2 rounded-full font-medium'>
-            {basketCount > 0 && basketCount}
-          </div>
-        </NavLink>
 
         <div onClick={handleModalVisible}>
           <AuthIcon className='h-10 w-10 fill-white' />
@@ -42,6 +36,13 @@ const HeaderMenu = ({ basketCount, isGoBackVisible }: HeaderMenuProps) => {
             <AuthPage onClose={handleModalVisible} />
           </Modal>
         )}
+
+        <NavLink to='/basket' className='relative'>
+          <BasketIcon className='h-12 w-12 p-2 bg-red-500 rounded-full fill-white' />
+          <div className='absolute -top-1 -right-2 bg-white text-red-500 px-2 rounded-full font-medium'>
+            {basketCount > 0 && basketCount}
+          </div>
+        </NavLink>
       </div>
     </div>
   )
