@@ -1,21 +1,24 @@
 import React, { useState, useEffect, ChangeEvent } from 'react'
 import AuthPage from '../pages/AuthPage'
+import { IAnonUser } from '../types/Auth/IAuth'
 import Modal from '../UI/Modal'
 import { regPhone } from '../utils/consts'
 
-const BasketForm = () => {
+interface IBasketFormProps {
+  setAnonUserData: (anonUserData: IAnonUser | null) => void
+}
+
+const BasketForm = ({ setAnonUserData }: IBasketFormProps) => {
   const [isModalVisible, setIsModalVisible] = useState(false)
 
   const [name, setName] = useState('')
   const [phone, setPhone] = useState('')
 
   const [nameError, setNameError] = useState('Имя обязательно')
-  const [phoneError, setPhoneError] = useState('Пароль обязателен')
+  const [phoneError, setPhoneError] = useState('Номер обязателен')
 
   const [isNameDirty, setIsNameDirty] = useState(false)
   const [isPhoneDirty, setIsPhoneDirty] = useState(false)
-
-  const [isFormValid, setIsFormValid] = useState(false)
 
   const handleModalVisible = () => {
     setIsModalVisible(prev => !prev)
@@ -29,6 +32,7 @@ const BasketForm = () => {
       setNameError('')
     }
   }
+
   const onPhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPhone(e.target.value)
     if (!e.target.value.length) {
@@ -49,9 +53,9 @@ const BasketForm = () => {
 
   useEffect(() => {
     if (!nameError && !phoneError) {
-      setIsFormValid(true)
+      setAnonUserData({ name, phone })
     } else {
-      setIsFormValid(false)
+      setAnonUserData(null)
     }
   }, [nameError, phoneError])
 

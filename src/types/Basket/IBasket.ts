@@ -1,3 +1,4 @@
+import { IUserData } from '../Auth/IAuth';
 import { IIngredient } from './../Pizza/IPizza';
 
 export interface IBasketItem {
@@ -15,4 +16,12 @@ export interface IBasketSortedItem {
   item: IBasketItem,
   count: number,
   allSum: number,
+}
+
+export interface IOrder {
+  contacts: IUserData,
+  adress: string,
+  basket: IBasketItem[],
+  totalSum: number,
+  date: Date
 }

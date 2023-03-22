@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
 import PizzaItem from '../components/PizzaItem'
+import { useActions } from '../hooks/useActions'
 import { IIngredient, IPizza } from '../types/Pizza/IPizza'
 
 interface HomeProps {
@@ -8,6 +8,7 @@ interface HomeProps {
 }
 
 const Home = ({ pizzas, ingredients }: HomeProps) => {
+  const { showNotification } = useActions()
 
   return (
     <div className='container mx-auto py-20 grid grid-cols-4 gap-4'>
@@ -16,6 +17,7 @@ const Home = ({ pizzas, ingredients }: HomeProps) => {
           pizza={pizza}
           ingredients={ingredients}
           key={pizza.id}
+          showNotification={showNotification}
         />
       ))}
     </div>

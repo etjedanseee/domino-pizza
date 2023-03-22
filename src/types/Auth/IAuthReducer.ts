@@ -1,7 +1,7 @@
 import { IUser } from './IAuth';
 
 export interface AuthState {
-  user: null | IUser
+  user: IUser | null
 }
 
 export enum AuthActionTypes {
@@ -10,7 +10,7 @@ export enum AuthActionTypes {
 
 interface setUser {
   type: AuthActionTypes.SET_USER,
-  payload: IUser
+  payload: IUser | null
 }
 
 export type AuthAction = setUser 

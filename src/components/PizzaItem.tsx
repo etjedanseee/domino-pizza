@@ -8,13 +8,15 @@ import PizzaIcon from '../assets/pizza.svg'
 import AddButton from '../UI/AddButton'
 import Modal from '../UI/Modal'
 import { useActions } from '../hooks/useActions'
+import { IShowNotification } from '../types/Notification/INotification'
 
 interface IPizzaProps {
   pizza: IPizza,
   ingredients: IIngredient[],
+  showNotification: (obj: IShowNotification) => void
 }
 
-const PizzaItem = ({ pizza, ingredients }: IPizzaProps) => {
+const PizzaItem = ({ pizza, ingredients, showNotification }: IPizzaProps) => {
   const [pizzaInfoVisible, setPizzaInfoVisible] = useState(false)
   const [addIngredientsVisible, setAddIngredientsVisible] = useState(false)
   const [selectedSize, setSelectedSize] = useState(pizza.sizes[0])
@@ -61,6 +63,7 @@ const PizzaItem = ({ pizza, ingredients }: IPizzaProps) => {
 
     updateIngredients(ingredients, addedIngredients, false)
     addPizzaToBasket(res)
+    showNotification({ text: `Добавлена ${res.name}`, color: 'green' })
 
     handleInfoVisible()
     setAddedIngrSum(0)
