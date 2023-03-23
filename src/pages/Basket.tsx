@@ -17,8 +17,33 @@ const Basket = () => {
   const [anonUserData, setAnonUserData] = useState<IAnonUser | null>(null)
   const [adress, setAdress] = useState('Улица ййй')
 
+  // const onCheckOut = () => {
+  //   if ((user || anonUserData) && items.length > 0 && adress.length > 0) {
+  //     const obj: IOrder = {
+  //       contacts: user?.data || anonUserData || { name: 'No name', phone: '1234567890' },
+  //       adress: adress,
+  //       basket: items,
+  //       totalSum: totalSum,
+  //       date: new Date()
+  //     }
+  //     //добавить логику с заказом
+  //     console.log('заказ: ', obj)
+  //     showNotification({ text: 'Заказ успешно оформлен!', color: 'green' })
+  //   } else {
+  //     showNotification({ text: 'Заполните все формы!', color: 'red' })
+  //   }
+  // }
+
   const onCheckOut = () => {
-    if ((user || anonUserData) && items.length > 0 && adress.length > 0) {
+    if (!items.length) {
+      showNotification({ text: 'Корзина пуста!', color: 'red' })
+    } else if (!(user || anonUserData)) {
+      showNotification({ text: 'Войдите или введите данные', color: 'red' })
+    } else if (!adress.length) {
+      showNotification({ text: 'Укажите адрес доставки', color: 'red' })
+    } else if (totalSum < 600) {
+      showNotification({ text: 'Сумма заказа меньше 600 ₽', color: 'red' })
+    } else {
       const obj: IOrder = {
         contacts: user?.data || anonUserData || { name: 'No name', phone: '1234567890' },
         adress: adress,
@@ -29,8 +54,6 @@ const Basket = () => {
       //добавить логику с заказом
       console.log('заказ: ', obj)
       showNotification({ text: 'Заказ успешно оформлен!', color: 'green' })
-    } else {
-      showNotification({ text: 'Заполните все формы!', color: 'red' })
     }
   }
 

@@ -63,7 +63,7 @@ const PizzaItem = ({ pizza, ingredients, showNotification }: IPizzaProps) => {
 
     updateIngredients(ingredients, addedIngredients, false)
     addPizzaToBasket(res)
-    showNotification({ text: `Добавлена ${res.name}`, color: 'green' })
+    showNotification({ text: `Добавлена ${res.name}`, color: 'green', time: 700 })
 
     handleInfoVisible()
     setAddedIngrSum(0)

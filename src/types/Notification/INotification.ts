@@ -9,5 +9,6 @@ export interface INotification extends IShowNotification {
 
 export interface IShowNotification {
   text: string,
-  color: NotificationColorType
+  color: NotificationColorType,
+  time?: number
 }

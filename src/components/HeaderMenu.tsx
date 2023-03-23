@@ -5,6 +5,7 @@ import { ReactComponent as ArrowBackIcon } from '../assets/arrow-back.svg'
 import { ReactComponent as AuthIcon } from '../assets/user.svg'
 import Modal from '../UI/Modal'
 import AuthPage from '../pages/AuthPage'
+import { useTypedSelector } from '../hooks/useTypedSelector'
 
 interface HeaderMenuProps {
   basketCount: number,
@@ -13,6 +14,7 @@ interface HeaderMenuProps {
 
 const HeaderMenu = ({ basketCount, isGoBackVisible }: HeaderMenuProps) => {
   const [isModalVisible, setIsModalVisible] = useState(false)
+  const { user } = useTypedSelector(state => state.auth)
 
   const handleModalVisible = () => {
     setIsModalVisible(prev => !prev)
@@ -28,7 +30,7 @@ const HeaderMenu = ({ basketCount, isGoBackVisible }: HeaderMenuProps) => {
         )}
 
         <div onClick={handleModalVisible}>
-          <AuthIcon className='h-10 w-10 fill-white' />
+          <AuthIcon className={`h-10 w-10 ${user ? 'fill-blue-700' : 'fill-white'} `} />
         </div>
 
         {isModalVisible && (

@@ -1,4 +1,5 @@
-import React, { useState, useEffect, ChangeEvent } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useInput } from '../hooks/useInput'
 import AuthPage from '../pages/AuthPage'
 import { IAnonUser } from '../types/Auth/IAuth'
 import Modal from '../UI/Modal'
@@ -11,44 +12,24 @@ interface IBasketFormProps {
 const BasketForm = ({ setAnonUserData }: IBasketFormProps) => {
   const [isModalVisible, setIsModalVisible] = useState(false)
 
-  const [name, setName] = useState('')
-  const [phone, setPhone] = useState('')
+  const { value: name, error: nameError, isDirty: isNameDirty, onChange: onNameChange, onBlur: onNameBlur } = useInput({
+    options: [
+      { key: 'required', error: 'Имя обязательно' },
+      { key: 'minLength', value: 2, error: 'Имя должно быть длиннее 2 букв' }
+    ],
+    initialErrorMessage: 'Имя обязательно'
+  })
 
-  const [nameError, setNameError] = useState('Имя обязательно')
-  const [phoneError, setPhoneError] = useState('Номер обязателен')
-
-  const [isNameDirty, setIsNameDirty] = useState(false)
-  const [isPhoneDirty, setIsPhoneDirty] = useState(false)
+  const { value: phone, error: phoneError, isDirty: isPhoneDirty, onChange: onPhoneChange, onBlur: onPhoneBlur } = useInput({
+    options: [
+      { key: 'required', error: 'Номер телефона обязателен' },
+      { key: 'pattern', value: regPhone, error: 'Некорректный номер телефона' }
+    ],
+    initialErrorMessage: 'Номер телефона обязателен'
+  })
 
   const handleModalVisible = () => {
     setIsModalVisible(prev => !prev)
-  }
-
-  const onNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setName(e.target.value)
-    if (!e.target.value.length) {
-      setNameError('Имя обязательно')
-    } else {
-      setNameError('')
-    }
-  }
-
-  const onPhoneChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setPhone(e.target.value)
-    if (!e.target.value.length) {
-      setPhoneError('Номер телефона обязателен')
-    } else if (!e.target.value.match(regPhone)) {
-      setPhoneError('Некорректный номер телефона')
-    } else {
-      setPhoneError('')
-    }
-  }
-
-  const onNameBlur = () => {
-    setIsNameDirty(true)
-  }
-  const onPhoneBlur = () => {
-    setIsPhoneDirty(true)
   }
 
   useEffect(() => {

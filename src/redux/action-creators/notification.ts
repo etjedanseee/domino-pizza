@@ -11,8 +11,9 @@ export const showNotification = (obj: IShowNotification) => {
       type: NotificationActionTypes.SHOW,
       payload: { ...obj, id }
     })
+
     setTimeout(() => {
       dispatch({ type: NotificationActionTypes.HIDE, payload: id })
-    }, 2000)
+    }, obj.time || 1500)
   }
 }
