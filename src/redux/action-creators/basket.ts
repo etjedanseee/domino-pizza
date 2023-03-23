@@ -19,3 +19,12 @@ export const decrementBasketItem = (id: number, price: number) => {
     })
   }
 }
+
+export const changeDeliveryAdress = (currentDeliveryPrice: number) => {
+  return (dispatch: Dispatch<IBasketAction>) => {
+    dispatch({
+      type: BasketActionTypes.CHANGE_DELIVERY_ADRESS,
+      payload: currentDeliveryPrice
+    })
+  }
+}

@@ -1,45 +1,29 @@
 import React, { useState } from 'react'
-import BasketForm from '../components/BasketForm'
+import BasketAdress from '../components/BasketAdress'
+import BasketForm from '../components/BasketContact'
 import BasketOrder from '../components/BasketOrder'
 import { useActions } from '../hooks/useActions'
 import { useTypedSelector } from '../hooks/useTypedSelector'
 import { IAnonUser } from '../types/Auth/IAuth'
-import { IOrder } from '../types/Basket/IBasket'
+import { IAdress, IOrder } from '../types/Basket/IBasket'
 import AddButton from '../UI/AddButton'
 
 const Basket = () => {
-  const { items, totalSum } = useTypedSelector(state => state.basket)
+  const { items, totalSum, deliveryPrice } = useTypedSelector(state => state.basket)
   const { ingredients } = useTypedSelector(state => state.pizza)
   const { user } = useTypedSelector(state => state.auth)
 
   const { showNotification } = useActions()
 
   const [anonUserData, setAnonUserData] = useState<IAnonUser | null>(null)
-  const [adress, setAdress] = useState('Улица ййй')
-
-  // const onCheckOut = () => {
-  //   if ((user || anonUserData) && items.length > 0 && adress.length > 0) {
-  //     const obj: IOrder = {
-  //       contacts: user?.data || anonUserData || { name: 'No name', phone: '1234567890' },
-  //       adress: adress,
-  //       basket: items,
-  //       totalSum: totalSum,
-  //       date: new Date()
-  //     }
-  //     //добавить логику с заказом
-  //     console.log('заказ: ', obj)
-  //     showNotification({ text: 'Заказ успешно оформлен!', color: 'green' })
-  //   } else {
-  //     showNotification({ text: 'Заполните все формы!', color: 'red' })
-  //   }
-  // }
+  const [adress, setAdress] = useState<IAdress | null>(null)
 
   const onCheckOut = () => {
     if (!items.length) {
       showNotification({ text: 'Корзина пуста!', color: 'red' })
     } else if (!(user || anonUserData)) {
       showNotification({ text: 'Войдите или введите данные', color: 'red' })
-    } else if (!adress.length) {
+    } else if (!adress) {
       showNotification({ text: 'Укажите адрес доставки', color: 'red' })
     } else if (totalSum < 600) {
       showNotification({ text: 'Сумма заказа меньше 600 ₽', color: 'red' })
@@ -65,6 +49,7 @@ const Basket = () => {
           items={items}
           ingredients={ingredients}
           totalSum={totalSum}
+          deliveryPrice={deliveryPrice}
         />
       )
         : <div className='py-4 px-4 rounded-2xl bg-white text-2xl font-bold text-gray-600 text-center mb-5'>Корзина пуста</div>
@@ -73,6 +58,8 @@ const Basket = () => {
       {!user && (
         <BasketForm setAnonUserData={setAnonUserData} />
       )}
+
+      <BasketAdress setAdress={setAdress} />
 
       <AddButton price={totalSum} title='Оформить заказ' onClick={onCheckOut} />
     </div>

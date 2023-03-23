@@ -9,10 +9,11 @@ import BasketItem from './BasketItem'
 interface BasketOrderProps {
   items: IBasketItem[],
   ingredients: IIngredient[],
-  totalSum: number
+  totalSum: number,
+  deliveryPrice: number
 }
 
-const BasketOrder = ({ items, ingredients, totalSum }: BasketOrderProps) => {
+const BasketOrder = ({ items, ingredients, totalSum, deliveryPrice }: BasketOrderProps) => {
   const [sortedItems, setSortedItems] = useState<IBasketSortedItem[]>([])
   const [disableButton, setDisableButton] = useState(false)
   const { addPizzaToBasket, decrementBasketItem, updateIngredients } = useActions()
@@ -63,7 +64,7 @@ const BasketOrder = ({ items, ingredients, totalSum }: BasketOrderProps) => {
         ))}
       </div>
       <div className='h-[1px] bg-gray-200 my-6'></div>
-      <div className='text-right  font-bold text-xl tracking-tighter'>{totalSum} ₽</div>
+      <div className='text-right  font-bold text-xl tracking-tighter'>{totalSum - deliveryPrice} ₽</div>
     </div>
   )
 }

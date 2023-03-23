@@ -1,6 +1,6 @@
 import { useState, ChangeEvent } from 'react';
 
-type InputOptionsKey = 'required' | 'pattern' | 'minLength' | 'min'
+type InputOptionsKey = 'required' | 'pattern' | 'minLength' | 'min' | 'length'
 
 interface IInputOptions {
   key: InputOptionsKey,
@@ -19,14 +19,24 @@ export const useInput = ({ options, initialErrorMessage }: useInputProps) => {
   const [isDirty, setIsDirty] = useState(false)
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setValue(e.target.value)
     const required = options.find(op => op.key === 'required')
+    const currentValue = e.target.value
+    setValue(currentValue)
+
     for (let option of options) {
-      if (option.key === 'pattern' && !e.target.value.match(option.value) && e.target.value.length !== 0) {
+      if (option.key === 'pattern' && !option.value.test(currentValue) && currentValue.length !== 0) {
         setError(option.error)
-      } else if (option.key === 'minLength' && e.target.value.length <= option.value && e.target.value.length !== 0) {
+        break
+      } else if (option.key === 'minLength' && currentValue.length <= option.value && currentValue.length !== 0) {
         setError(option.error)
-      } else if (required && !e.target.value.length) {
+        break
+      } else if (option.key === 'min' && currentValue.length !== 0 && +currentValue <= option.value) {
+        setError(option.error)
+        break
+      } else if (option.key === 'length' && currentValue.length !== 0 && currentValue.length !== option.value) {
+        setError(option.error)
+        break
+      } else if (required && !currentValue.length) {
         setError(required.error)
       } else {
         setError('')

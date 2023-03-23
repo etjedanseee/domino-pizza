@@ -3,12 +3,14 @@ import { IBasketItem } from './IBasket';
 export interface IBasketState {
   items: IBasketItem[],
   count: number,
+  deliveryPrice: number,
   totalSum: number
 }
 
 export enum BasketActionTypes {
   ADD_ITEM = 'ADD_ITEM',
   DELETE_ITEM = 'DELETE_ITEM',
+  CHANGE_DELIVERY_ADRESS = 'CHANGE_DELIVERY_ADRESS'
 }
 
 interface addItemToBasket {
@@ -21,4 +23,9 @@ interface deleteBasketItem {
   payload: { id: number, price: number }
 }
 
-export type IBasketAction = addItemToBasket | deleteBasketItem
+interface changeDeliveryAdress {
+  type: BasketActionTypes.CHANGE_DELIVERY_ADRESS,
+  payload: number
+}
+
+export type IBasketAction = addItemToBasket | deleteBasketItem | changeDeliveryAdress

@@ -1,18 +1,22 @@
+import { calcTotalSum } from './../../utils/calcTotalSum';
 import { IBasketState, IBasketAction, BasketActionTypes } from './../../types/Basket/IBasketReducer';
 
 const initialState: IBasketState = {
   items: [],
   count: 0,
+  deliveryPrice: 0,
   totalSum: 0
 }
 
 export const basketReducer = (state = initialState, action: IBasketAction): IBasketState => {
   switch (action.type) {
     case BasketActionTypes.ADD_ITEM: {
+      const newItems = [...state.items, action.payload]
       return {
-        items: [...state.items, action.payload],
+        ...state,
+        items: newItems,
         count: state.count + 1,
-        totalSum: state.totalSum + action.payload.totalPrice
+        totalSum: calcTotalSum(newItems, state.deliveryPrice)
       }
     }
     case BasketActionTypes.DELETE_ITEM: {
@@ -21,7 +25,16 @@ export const basketReducer = (state = initialState, action: IBasketAction): IBas
         ...state,
         items: filteredItems,
         count: state.count - 1 || 0,
-        totalSum: state.totalSum - action.payload.price
+        totalSum: calcTotalSum(filteredItems, state.deliveryPrice)
+      }
+    }
+    case BasketActionTypes.CHANGE_DELIVERY_ADRESS: {
+      return {
+        ...state,
+        deliveryPrice: action.payload,
+        totalSum: state.deliveryPrice < action.payload
+          ? state.totalSum + (action.payload - state.deliveryPrice)
+          : state.totalSum - (state.deliveryPrice - action.payload)
       }
     }
     default: return state

@@ -20,8 +20,16 @@ export interface IBasketSortedItem {
 
 export interface IOrder {
   contacts: IUserData,
-  adress: string,
+  adress: IAdress,
   basket: IBasketItem[],
   totalSum: number,
   date: Date
+}
+
+export interface IAdress {
+  street: string,
+  house: number,
+  flat: number,
+  intercomCode: number,
+  deliveryPrice: number
 }

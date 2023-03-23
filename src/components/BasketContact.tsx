@@ -5,11 +5,11 @@ import { IAnonUser } from '../types/Auth/IAuth'
 import Modal from '../UI/Modal'
 import { regPhone } from '../utils/consts'
 
-interface IBasketFormProps {
+interface IBasketContactProps {
   setAnonUserData: (anonUserData: IAnonUser | null) => void
 }
 
-const BasketForm = ({ setAnonUserData }: IBasketFormProps) => {
+const BasketContact = ({ setAnonUserData }: IBasketContactProps) => {
   const [isModalVisible, setIsModalVisible] = useState(false)
 
   const { value: name, error: nameError, isDirty: isNameDirty, onChange: onNameChange, onBlur: onNameBlur } = useInput({
@@ -82,4 +82,4 @@ const BasketForm = ({ setAnonUserData }: IBasketFormProps) => {
   )
 }
 
-export default BasketForm
+export default BasketContact
