@@ -39,8 +39,10 @@ const Basket = () => {
       console.log('заказ: ', obj)
       checkoutOrder(obj)
       showNotification({ text: 'Заказ успешно оформлен! В течение 2 часов с вами свяжется курьер', color: 'green', time: 5000 })
+      localStorage.removeItem('basket')
     }
   }
+
 
   return (
     <div className='container mx-auto py-20'>

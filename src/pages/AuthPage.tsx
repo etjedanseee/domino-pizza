@@ -52,6 +52,7 @@ const AuthPage = ({ onClose }: AuthPageProps) => {
     setUser(null)
     onClose()
     showNotification({ text: 'Успешно вышли', color: 'green' })
+    localStorage.removeItem('user')
   }
 
   const onGetOrders = () => {

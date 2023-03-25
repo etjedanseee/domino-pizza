@@ -36,6 +36,14 @@ export const basketReducer = (state = initialState, action: IBasketAction): IBas
         totalSum: 0
       }
     }
+    case BasketActionTypes.SET_BASKET_ITEMS: {
+      return {
+        items: action.payload,
+        count: action.payload.length,
+        deliveryPrice: 0,
+        totalSum: calcTotalSum(action.payload, 0)
+      }
+    }
     case BasketActionTypes.CHANGE_DELIVERY_ADRESS: {
       return {
         ...state,

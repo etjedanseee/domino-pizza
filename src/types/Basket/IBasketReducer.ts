@@ -11,6 +11,7 @@ export enum BasketActionTypes {
   ADD_ITEM = 'ADD_ITEM',
   DELETE_ITEM = 'DELETE_ITEM',
   CLEAR_ITEMS = 'CLEAR_ITEMS',
+  SET_BASKET_ITEMS = 'SET_BASKET_ITEMS',
   CHANGE_DELIVERY_ADRESS = 'CHANGE_DELIVERY_ADRESS',
   GET_USER_ORDERS = 'GET_USER_ORDERS',
   CHECKOUT_ORDER = 'CHECKOUT_ORDER'
@@ -30,6 +31,11 @@ interface clearItems {
   type: BasketActionTypes.CLEAR_ITEMS,
 }
 
+interface setBasketItems {
+  type: BasketActionTypes.SET_BASKET_ITEMS,
+  payload: IBasketItem[]
+}
+
 interface changeDeliveryAdress {
   type: BasketActionTypes.CHANGE_DELIVERY_ADRESS,
   payload: number
@@ -45,4 +51,4 @@ interface checkoutOrder {
   payload: IOrder
 }
 
-export type IBasketAction = addItemToBasket | deleteBasketItem | clearItems | changeDeliveryAdress | getUserOrders | checkoutOrder
+export type IBasketAction = addItemToBasket | deleteBasketItem | clearItems | changeDeliveryAdress | getUserOrders | checkoutOrder | setBasketItems

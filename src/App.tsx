@@ -11,14 +11,33 @@ import Notification from './UI/Notification';
 //добавить юсэффект где брать с куки данные о авторизации и если их нет редирект на регистр/вход
 function App() {
   const { pizzas, ingredients, loading } = useTypedSelector(state => state.pizza)
-  const { count: basketCount } = useTypedSelector(state => state.basket)
+  const { count: basketCount, items } = useTypedSelector(state => state.basket)
+  const { user } = useTypedSelector(state => state.auth)
   const { notifications } = useTypedSelector(state => state.notification)
-  const { fetchPizzas, fetchIngredients } = useActions()
+  const { fetchPizzas, fetchIngredients, setUser, setBasketItems } = useActions()
+
+  useEffect(() => {
+    const localUser = localStorage.getItem('user')
+    if (localUser && !user) {
+      setUser(JSON.parse(localUser))
+    } else if (user && !localUser) {
+      localStorage.setItem('user', JSON.stringify(user))
+    }
+  }, [user])
 
   useEffect(() => {
     fetchPizzas()
     fetchIngredients()
+
+    const localItems = localStorage.getItem('basket')
+    if (localItems) {
+      setBasketItems(JSON.parse(localItems))
+    }
   }, [])
+
+  useEffect(() => {
+    localStorage.setItem('basket', JSON.stringify(items))
+  }, [items])
 
   if (loading) {
     return <div className='text-3xl font-bold'>Loading...</div>
