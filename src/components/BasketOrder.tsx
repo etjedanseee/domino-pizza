@@ -16,7 +16,7 @@ interface BasketOrderProps {
 const BasketOrder = ({ items, ingredients, totalSum, deliveryPrice }: BasketOrderProps) => {
   const [sortedItems, setSortedItems] = useState<IBasketSortedItem[]>([])
   const [disableButton, setDisableButton] = useState(false)
-  const { addPizzaToBasket, decrementBasketItem, updateIngredients } = useActions()
+  const { addPizzaToBasket, decrementBasketItem, updateIngredients, showNotification } = useActions()
 
   const onIncrementItem = (item: IBasketItem) => {
     if (!disableButton) {
@@ -28,7 +28,7 @@ const BasketOrder = ({ items, ingredients, totalSum, deliveryPrice }: BasketOrde
         setTimeout(() => { setDisableButton(false) }, 500)
       } else {
         setSortedItems([...sortedItems])
-        window.alert('К сожалению эти ингредиенты закончились')
+        showNotification({ color: 'red', text: 'К сожалению эти ингредиенты закончились' })
       }
     }
   }

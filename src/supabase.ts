@@ -1,3 +1,5 @@
+import { IUserData } from './types/Auth/IAuth';
+import { IAdress, IBasketItem } from './types/Basket/IBasket';
 export type Json =
   | string
   | number
@@ -11,19 +13,48 @@ export interface Database {
     Tables: {
       AdditionalIngredients: {
         Row: {
+          count: number
           name: string
           price: number
-          count: number
         }
         Insert: {
+          count?: number
           name: string
           price: number
-          сount?: number
         }
         Update: {
+          count?: number
           name?: string
           price?: number
-          сount?: number
+        }
+      }
+      Orders: {
+        Row: {
+          adress: Json
+          basket: Json[]
+          checkoutDate: string
+          contacts: Json
+          id: number
+          totalSum: number
+          user_id: string | null
+        }
+        Insert: {
+          adress: IAdress
+          basket: IBasketItem[]
+          checkoutDate: Date
+          contacts: IUserData
+          id?: number
+          totalSum: number
+          user_id: string | null
+        }
+        Update: {
+          adress?: Json
+          basket?: Json[]
+          checkoutDate?: string
+          contacts?: Json
+          id?: number
+          totalSum?: number
+          user_id?: string | null
         }
       }
       Pizza: {

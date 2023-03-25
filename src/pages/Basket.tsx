@@ -13,7 +13,7 @@ const Basket = () => {
   const { ingredients } = useTypedSelector(state => state.pizza)
   const { user } = useTypedSelector(state => state.auth)
 
-  const { showNotification } = useActions()
+  const { showNotification, checkoutOrder } = useActions()
 
   const [anonUserData, setAnonUserData] = useState<IAnonUser | null>(null)
   const [adress, setAdress] = useState<IAdress | null>(null)
@@ -33,11 +33,12 @@ const Basket = () => {
         adress: adress,
         basket: items,
         totalSum: totalSum,
-        date: new Date()
+        checkoutDate: new Date(),
+        user_id: user?.id || null
       }
-      //добавить логику с заказом
       console.log('заказ: ', obj)
-      showNotification({ text: 'Заказ успешно оформлен!', color: 'green' })
+      checkoutOrder(obj)
+      showNotification({ text: 'Заказ успешно оформлен! В течение 2 часов с вами свяжется курьер', color: 'green', time: 5000 })
     }
   }
 

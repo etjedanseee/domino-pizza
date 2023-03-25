@@ -28,6 +28,14 @@ export const basketReducer = (state = initialState, action: IBasketAction): IBas
         totalSum: calcTotalSum(filteredItems, state.deliveryPrice)
       }
     }
+    case BasketActionTypes.CLEAR_ITEMS: {
+      return {
+        items: [],
+        count: 0,
+        deliveryPrice: 0,
+        totalSum: 0
+      }
+    }
     case BasketActionTypes.CHANGE_DELIVERY_ADRESS: {
       return {
         ...state,

@@ -1,6 +1,7 @@
+import { supabase } from './../../supabaseClient';
 import { IBasketAction, BasketActionTypes } from './../../types/Basket/IBasketReducer';
 import { Dispatch } from "redux";
-import { IBasketItem } from '../../types/Basket/IBasket';
+import { IBasketItem, IOrder } from '../../types/Basket/IBasket';
 
 export const addPizzaToBasket = (item: IBasketItem) => {
   return (dispatch: Dispatch<IBasketAction>) => {
@@ -28,3 +29,32 @@ export const changeDeliveryAdress = (currentDeliveryPrice: number) => {
     })
   }
 }
+
+export const getUserOrders = () => {
+  return async (dispatch: Dispatch<IBasketAction>) => {
+    const d = await supabase
+      .from('Orders')
+      .select('*')
+
+    console.log('user orders', d)
+  };
+};
+
+export const checkoutOrder = (order: IOrder) => {
+  return async (dispatch: Dispatch<IBasketAction>) => {
+    try {
+      const { data, error } = await supabase
+        .from('Orders')
+        .insert(order)
+
+      if (error) {
+        throw new Error(error.message)
+      }
+
+      console.log('insert order', data, error)
+      dispatch({ type: BasketActionTypes.CLEAR_ITEMS })
+    } catch (e) {
+      console.log('CHECKOUT ERROR', e)
+    }
+  };
+};

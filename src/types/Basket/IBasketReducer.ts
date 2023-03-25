@@ -1,4 +1,4 @@
-import { IBasketItem } from './IBasket';
+import { IBasketItem, IOrder } from './IBasket';
 
 export interface IBasketState {
   items: IBasketItem[],
@@ -10,7 +10,10 @@ export interface IBasketState {
 export enum BasketActionTypes {
   ADD_ITEM = 'ADD_ITEM',
   DELETE_ITEM = 'DELETE_ITEM',
-  CHANGE_DELIVERY_ADRESS = 'CHANGE_DELIVERY_ADRESS'
+  CLEAR_ITEMS = 'CLEAR_ITEMS',
+  CHANGE_DELIVERY_ADRESS = 'CHANGE_DELIVERY_ADRESS',
+  GET_USER_ORDERS = 'GET_USER_ORDERS',
+  CHECKOUT_ORDER = 'CHECKOUT_ORDER'
 }
 
 interface addItemToBasket {
@@ -23,9 +26,23 @@ interface deleteBasketItem {
   payload: { id: number, price: number }
 }
 
+interface clearItems {
+  type: BasketActionTypes.CLEAR_ITEMS,
+}
+
 interface changeDeliveryAdress {
   type: BasketActionTypes.CHANGE_DELIVERY_ADRESS,
   payload: number
 }
 
-export type IBasketAction = addItemToBasket | deleteBasketItem | changeDeliveryAdress
+interface getUserOrders {
+  type: BasketActionTypes.GET_USER_ORDERS,
+  payload: number
+}
+
+interface checkoutOrder {
+  type: BasketActionTypes.CHECKOUT_ORDER,
+  payload: IOrder
+}
+
+export type IBasketAction = addItemToBasket | deleteBasketItem | clearItems | changeDeliveryAdress | getUserOrders | checkoutOrder

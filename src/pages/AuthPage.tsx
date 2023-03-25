@@ -31,7 +31,7 @@ const AuthPage = ({ onClose }: AuthPageProps) => {
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
 
-  const { setUser, showNotification } = useActions()
+  const { setUser, showNotification, getUserOrders } = useActions()
 
   const onSubmit = handleSubmit(data => {
     setAuthError('')
@@ -52,6 +52,10 @@ const AuthPage = ({ onClose }: AuthPageProps) => {
     setUser(null)
     onClose()
     showNotification({ text: 'Успешно вышли', color: 'green' })
+  }
+
+  const onGetOrders = () => {
+    getUserOrders()
   }
 
   const singUp = async (singUpData: FormData) => {
@@ -108,6 +112,12 @@ const AuthPage = ({ onClose }: AuthPageProps) => {
           <AuthIcon className='h-12 w-12 fill-blue-700 mb-2' />
           <div className='mb-1 font-medium'>{user.data.email}</div>
           <div className='mb-2 font-medium'>{user.data.phone}</div>
+          <div
+            onClick={onGetOrders}
+            className='text-white font-medium px-8 py-1 bg-blue-500 rounded-2xl mb-2'
+          >
+            Посмотреть историю заказов
+          </div>
           <div onClick={signOut} className='text-white font-medium px-8 py-1 bg-red-500 rounded-2xl'>Выйти</div>
         </div>
       )

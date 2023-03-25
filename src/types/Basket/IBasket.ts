@@ -23,7 +23,8 @@ export interface IOrder {
   adress: IAdress,
   basket: IBasketItem[],
   totalSum: number,
-  date: Date
+  checkoutDate: Date,
+  user_id: string | null
 }
 
 export interface IAdress {
