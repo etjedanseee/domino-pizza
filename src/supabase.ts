@@ -30,10 +30,10 @@ export interface Database {
       }
       Orders: {
         Row: {
-          adress: Json
-          basket: Json[]
+          adress: IAdress
+          basket: IBasketItem[]
           checkoutDate: string
-          contacts: Json
+          contacts: IUserData
           id: number
           totalSum: number
           user_id: string | null

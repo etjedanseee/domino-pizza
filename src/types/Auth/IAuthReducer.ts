@@ -1,11 +1,15 @@
-import { IUser } from './IAuth';
+import { IOrder } from './../Basket/IBasket';
+import { IUser, IUserOrder } from './IAuth';
 
 export interface AuthState {
-  user: IUser | null
+  user: IUser | null,
+  userOrders: IUserOrder[]
 }
 
 export enum AuthActionTypes {
   SET_USER = 'SET_USER',
+  GET_ORDERS = 'GET_ORDERS',
+  CLEAR_ORDERS = 'CLEAR_ORDERS'
 }
 
 interface setUser {
@@ -13,4 +17,13 @@ interface setUser {
   payload: IUser | null
 }
 
-export type AuthAction = setUser 
+interface getOrders {
+  type: AuthActionTypes.GET_ORDERS,
+  payload: IUserOrder[]
+}
+
+interface clearOrders {
+  type: AuthActionTypes.CLEAR_ORDERS,
+}
+
+export type AuthAction = setUser | getOrders | clearOrders

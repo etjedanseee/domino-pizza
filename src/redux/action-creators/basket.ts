@@ -39,15 +39,7 @@ export const changeDeliveryAdress = (currentDeliveryPrice: number) => {
   }
 }
 
-export const getUserOrders = () => {
-  return async (dispatch: Dispatch<IBasketAction>) => {
-    const d = await supabase
-      .from('Orders')
-      .select('*')
 
-    console.log('user orders', d)
-  };
-};
 
 export const checkoutOrder = (order: IOrder) => {
   return async (dispatch: Dispatch<IBasketAction>) => {

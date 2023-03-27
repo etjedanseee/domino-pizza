@@ -1,3 +1,4 @@
+import { IAdress, IBasketItem } from './../Basket/IBasket';
 
 export interface IUser {
   id: string,
@@ -14,4 +15,14 @@ export interface IAnonUser {
 export interface IConfirmedUser {
   email: string,
   phone: string
+}
+
+export interface IUserOrder {
+  adress: IAdress,
+  basket: IBasketItem[],
+  checkoutDate: string,
+  contacts: IUserData,
+  id: number,
+  totalSum: number,
+  user_id: string | null
 }

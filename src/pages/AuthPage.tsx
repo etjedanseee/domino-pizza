@@ -6,6 +6,7 @@ import { supabase } from '../supabaseClient'
 import AddButton from '../UI/AddButton';
 import { regEmail, regPhone } from '../utils/consts';
 import { ReactComponent as AuthIcon } from '../assets/user.svg'
+import { useNavigate } from 'react-router-dom';
 interface FormData {
   email: string,
   password: string,
@@ -31,7 +32,9 @@ const AuthPage = ({ onClose }: AuthPageProps) => {
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
 
-  const { setUser, showNotification, getUserOrders } = useActions()
+  const { setUser, showNotification, clearUserOrders } = useActions()
+
+  const navigate = useNavigate()
 
   const onSubmit = handleSubmit(data => {
     setAuthError('')
@@ -50,13 +53,15 @@ const AuthPage = ({ onClose }: AuthPageProps) => {
 
   const signOut = () => {
     setUser(null)
+    clearUserOrders()
     onClose()
     showNotification({ text: 'Успешно вышли', color: 'green' })
     localStorage.removeItem('user')
   }
 
   const onGetOrders = () => {
-    getUserOrders()
+    navigate('/orders')
+    onClose()
   }
 
   const singUp = async (singUpData: FormData) => {
@@ -115,7 +120,7 @@ const AuthPage = ({ onClose }: AuthPageProps) => {
           <div className='mb-2 font-medium'>{user.data.phone}</div>
           <div
             onClick={onGetOrders}
-            className='text-white font-medium px-8 py-1 bg-blue-500 rounded-2xl mb-2'
+            className='text-white font-medium px-8 py-1 bg-blue-500 rounded-2xl mb-4'
           >
             Посмотреть историю заказов
           </div>

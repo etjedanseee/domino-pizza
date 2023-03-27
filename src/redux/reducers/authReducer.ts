@@ -2,7 +2,8 @@ import { AuthState, AuthAction, AuthActionTypes } from './../../types/Auth/IAuth
 
 
 const initialState: AuthState = {
-  user: null
+  user: null,
+  userOrders: []
 }
 
 export const authReducer = (state = initialState, action: AuthAction): AuthState => {
@@ -11,6 +12,18 @@ export const authReducer = (state = initialState, action: AuthAction): AuthState
       return {
         ...state,
         user: action.payload
+      }
+    }
+    case AuthActionTypes.GET_ORDERS: {
+      return {
+        ...state,
+        userOrders: action.payload
+      }
+    }
+    case AuthActionTypes.CLEAR_ORDERS: {
+      return {
+        ...state,
+        userOrders: []
       }
     }
     default: return state
