@@ -10,7 +10,8 @@ import { useNavigate } from 'react-router-dom';
 interface FormData {
   email: string,
   password: string,
-  phone: string
+  phone: string,
+  name: string
 }
 
 interface singInData {
@@ -69,7 +70,12 @@ const AuthPage = ({ onClose }: AuthPageProps) => {
       const { data, error } = await supabase.auth.signUp({
         email: singUpData.email,
         password: singUpData.password,
-        options: { data: { phone: singUpData.phone } }
+        options: {
+          data: {
+            phone: singUpData.phone,
+            name: singUpData.name
+          }
+        }
       })
       if (error) {
         throw new Error(error.message)
@@ -96,12 +102,12 @@ const AuthPage = ({ onClose }: AuthPageProps) => {
       showNotification({ text: 'Вход выполнен успешно!', color: 'green' })
       onClose()
 
-      //придумать какие поля нужны (например токен) и передать их
       const userObj = {
         id: data.user?.id || '0',
         data: {
           email: data.user?.email || '0',
-          phone: data.user?.user_metadata.phone || '0'
+          phone: data.user?.user_metadata.phone || '0',
+          name: data.user?.user_metadata.name || '0'
         }
       }
       setUser(userObj)
@@ -116,6 +122,7 @@ const AuthPage = ({ onClose }: AuthPageProps) => {
       {user ? (
         <div className='p-4 text-lg flex flex-col items-center'>
           <AuthIcon className='h-12 w-12 fill-blue-700 mb-2' />
+          <div className='font-medium text-lg'>{user.data.name}</div>
           <div className='mb-1 font-medium'>{user.data.email}</div>
           <div className='mb-2 font-medium'>{user.data.phone}</div>
           <div
@@ -152,7 +159,30 @@ const AuthPage = ({ onClose }: AuthPageProps) => {
 
             <form className='w-full py-4 px-4'>
               {authError.length > 0 && (
-                <div className='text-red-500 mb-4 font-medium'>{authError}</div>
+                <div className='text-red-600 mb-4 font-medium'>{authError}</div>
+              )}
+
+              {loginOrRegistration === 'registration' && (
+                <>
+                  <div className='mb-4'>
+                    <input
+                      {...register("phone", { required: true, pattern: regPhone })}
+                      placeholder='Введите номер телефона'
+                      className='outline-none placeholder:text-gray-600 text-lg border-2 border-gray-500 w-full rounded-md px-4 py-1'
+                    />
+                    {errors.phone?.type === 'required' && <div className='text-red-600 text-sm pl-4'>Номер обязателен</div>}
+                    {errors.phone?.type === 'pattern' && <div className='text-red-600 text-sm pl-4'>Введите корректный номер</div>}
+                  </div>
+
+                  <div className='mb-4'>
+                    <input
+                      {...register("name", { required: true })}
+                      placeholder='Введите ваше имя'
+                      className='outline-none placeholder:text-gray-600 text-lg border-2 border-gray-500 w-full rounded-md px-4 py-1'
+                    />
+                    {errors.phone?.type === 'required' && <div className='text-red-600 text-sm pl-4'>Имя обязательно</div>}
+                  </div>
+                </>
               )}
 
               <div className='mb-4'>
@@ -162,21 +192,9 @@ const AuthPage = ({ onClose }: AuthPageProps) => {
                   className='outline-none placeholder:text-gray-600 text-lg border-2 border-gray-500 w-full rounded-md px-4 py-1'
                   spellCheck="false"
                 />
-                {errors.email?.type === 'required' && <div className='text-red-500 text-sm'>Почта обязательна</div>}
-                {errors.email?.type === 'pattern' && <div className='text-red-500 text-sm'>Введите корректную почту</div>}
+                {errors.email?.type === 'required' && <div className='text-red-600 text-sm pl-4'>Почта обязательна</div>}
+                {errors.email?.type === 'pattern' && <div className='text-red-600 text-sm pl-4'>Введите корректную почту</div>}
               </div>
-
-              {loginOrRegistration === 'registration' && (
-                <div className='mb-4'>
-                  <input
-                    {...register("phone", { required: true, pattern: regPhone })}
-                    placeholder='Введите номер телефона'
-                    className='outline-none placeholder:text-gray-600 text-lg border-2 border-gray-500 w-full rounded-md px-4 py-1'
-                  />
-                  {errors.phone?.type === 'required' && <div className='text-red-500 text-sm'>Номер обязателен</div>}
-                  {errors.phone?.type === 'pattern' && <div className='text-red-500 text-sm'>Введите корректный номер</div>}
-                </div>
-              )}
 
               <div className='mb-4'>
                 <input
@@ -185,8 +203,8 @@ const AuthPage = ({ onClose }: AuthPageProps) => {
                   className='outline-none placeholder:text-gray-600 text-lg border-2 border-gray-500 w-full rounded-md px-4 py-1'
                   spellCheck="false"
                 />
-                {errors.password?.type === 'required' && <div className='text-red-500 text-sm'>Пароль обязателен</div>}
-                {errors.password?.type === 'minLength' && <div className='text-red-500 text-sm'>Пароль должен быть больше 5 символов</div>}
+                {errors.password?.type === 'required' && <div className='text-red-600 text-sm pl-4'>Пароль обязателен</div>}
+                {errors.password?.type === 'minLength' && <div className='text-red-600 text-sm pl-4'>Пароль должен быть больше 5 символов</div>}
               </div>
 
               <AddButton
@@ -196,7 +214,7 @@ const AuthPage = ({ onClose }: AuthPageProps) => {
                 justify='justify-center'
               />
 
-              {loginOrRegistration === 'login' && <div className='text-red-500 text-center'>Забыли пароль?</div>}
+              {loginOrRegistration === 'login' && <div className='text-red-600 text-center'>Забыли пароль?</div>}
 
             </form>
           </>

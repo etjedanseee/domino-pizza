@@ -12,9 +12,8 @@ export interface IAnonUser {
   phone: string
 }
 
-export interface IConfirmedUser {
+export interface IConfirmedUser extends IAnonUser {
   email: string,
-  phone: string
 }
 
 export interface IUserOrder {

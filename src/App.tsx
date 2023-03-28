@@ -9,7 +9,6 @@ import Home from './pages/Home';
 import UserOrders from './pages/UserOrders';
 import Notification from './UI/Notification';
 
-//добавить юсэффект где брать с куки данные о авторизации и если их нет редирект на регистр/вход
 function App() {
   const { pizzas, ingredients, loading } = useTypedSelector(state => state.pizza)
   const { count: basketCount, items } = useTypedSelector(state => state.basket)

@@ -22,12 +22,15 @@ const HeaderMenu = ({ basketCount, isGoBackVisible }: HeaderMenuProps) => {
 
   return (
     <div className='fixed z-40 top-0 left-0 w-full bg-zinc-900 '>
-      <div className='container mx-auto flex justify-between items-center px-5 py-3'>
-        {isGoBackVisible && (
-          <NavLink to='/'>
-            <ArrowBackIcon className='h-12 w-12 rotate-180 fill-white px-2 bg-gray-500 rounded-full' />
-          </NavLink>
-        )}
+      <div className='container mx-auto flex justify-end items-center gap-x-8 px-5 py-3'>
+        <div className='flex-1 justify-self-start flex justify-start'>
+          {isGoBackVisible
+            ? <NavLink to='/' className=''>
+              <ArrowBackIcon className='h-12 w-12 rotate-180 fill-white px-2 bg-gray-500 rounded-full' />
+            </NavLink>
+            : <div className='text-white font-medium text-xl'>Pizza Domino</div>
+          }
+        </div>
 
         <div onClick={handleModalVisible}>
           <AuthIcon className={`h-10 w-10 ${user ? 'fill-blue-700' : 'fill-white'} `} />

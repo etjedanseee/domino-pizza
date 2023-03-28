@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import UserOrder from '../components/UserOrder'
 import { useActions } from '../hooks/useActions'
 import { useTypedSelector } from '../hooks/useTypedSelector'
@@ -10,9 +11,13 @@ const UserOrders = () => {
 
   const { getUserOrders } = useActions()
 
+  const navigate = useNavigate()
+
   useEffect(() => {
     if (user) {
       getUserOrders()
+    } else {
+      navigate('/')
     }
   }, [user])
 

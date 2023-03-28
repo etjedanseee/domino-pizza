@@ -33,7 +33,7 @@ const UserOrder = ({ order }: UserOrderProps) => {
       {basketVisible && (
         <div className='py-2 w-full border-b-2'>
           {sortedBasketItems.map(item => (
-            <div className='flex items-center gap-x-5 mb-3'>
+            <div key={item.item.id} className='flex items-center gap-x-5 mb-3'>
               <img src={item.item.image} className='h-24' alt="pizza" />
               <div className='flex-1'>
                 <div className='font-bold text-xl leading-none mb-2'>{item.item.name}</div>

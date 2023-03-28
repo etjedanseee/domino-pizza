@@ -1,4 +1,3 @@
-import { IOrder } from './../Basket/IBasket';
 import { IUser, IUserOrder } from './IAuth';
 
 export interface AuthState {
