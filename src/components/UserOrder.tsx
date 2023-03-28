@@ -8,8 +8,10 @@ interface UserOrderProps {
 
 const UserOrder = ({ order }: UserOrderProps) => {
   const { adress, basket, checkoutDate, totalSum } = order
-  const date = new Date(checkoutDate).toLocaleString()
   const sortedBasketItems = sortBasketItems(basket)
+
+  const date = new Date(checkoutDate).toLocaleString()
+  const countPizzasName = order.basket.length === 1 ? 'пицца' : order.basket.length < 5 ? 'пиццы' : 'пицц'
 
   const [basketVisible, setBasketVisible] = useState(false)
 
@@ -25,7 +27,7 @@ const UserOrder = ({ order }: UserOrderProps) => {
         className='px-8 font-medium hover:cursor-pointer select-none'
         onClick={handleBasketVisible}
       >
-        {basket.length} пиццы (посмотреть)
+        {basket.length} {countPizzasName} (посмотреть)
       </div>
       <div>ул. {adress.street} {adress.house}/{adress.flat}</div>
       <div className='flex justify-end flex-1 font-bold text-lg'>{totalSum} ₽</div>
