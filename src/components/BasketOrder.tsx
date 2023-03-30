@@ -47,24 +47,25 @@ const BasketOrder = ({ items, ingredients, totalSum, deliveryPrice }: BasketOrde
   }, [items])
 
   return (
-    <div className='py-4 px-4 rounded-2xl bg-white mb-5'>
-      <div className='text-lg font-bold mb-3'>Ваш заказ</div>
-      <div className='h-[1px] bg-gray-200 mb-6'></div>
-      <div className='flex flex-col gap-y-5'>
+    <div className='p-4 rounded-2xl bg-white mb-5'>
+      <div className='sm:text-lg text-xl font-bold mb-3'>Ваш заказ</div>
+      <div className='h-[1px] bg-gray-200 mb-4'></div>
+      <div className='flex flex-col'>
         {sortedItems.map(item => (
-          <BasketItem
-            id={item.item.id}
-            item={item.item}
-            allSum={item.allSum}
-            count={item.count}
-            key={item.item.id + item.allSum}
-            onIncrementItem={onIncrementItem}
-            onDeleteBasketItem={onDeleteBasketItem}
-          />
+          <div key={item.item.id + item.allSum}>
+            <BasketItem
+              id={item.item.id}
+              item={item.item}
+              allSum={item.allSum}
+              count={item.count}
+              onIncrementItem={onIncrementItem}
+              onDeleteBasketItem={onDeleteBasketItem}
+            />
+            <div className='h-[1px] bg-gray-200 my-3'></div>
+          </div>
         ))}
       </div>
-      <div className='h-[1px] bg-gray-200 my-6'></div>
-      <div className='text-right  font-bold text-xl tracking-tighter'>{totalSum - deliveryPrice} ₽</div>
+      <div className='text-right font-bold text-xl tracking-tighter'>{totalSum - deliveryPrice} ₽</div>
     </div>
   )
 }

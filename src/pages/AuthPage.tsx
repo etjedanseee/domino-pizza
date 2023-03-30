@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form";
 import { useActions } from '../hooks/useActions';
 import { useTypedSelector } from '../hooks/useTypedSelector';
@@ -7,18 +7,7 @@ import AddButton from '../UI/AddButton';
 import { regEmail, regPhone } from '../utils/consts';
 import { ReactComponent as AuthIcon } from '../assets/user.svg'
 import { useNavigate } from 'react-router-dom';
-interface FormData {
-  email: string,
-  password: string,
-  phone: string,
-  name: string
-}
-
-interface singInData {
-  email: string,
-  password: string
-}
-
+import { FormData, singInData } from '../types/Auth/IAuth';
 interface AuthPageProps {
   onClose: () => void
 }
@@ -26,15 +15,14 @@ interface AuthPageProps {
 type loginOrRegistrationType = 'login' | 'registration'
 
 const AuthPage = ({ onClose }: AuthPageProps) => {
+  const { user } = useTypedSelector(state => state.auth)
+
   const [loginOrRegistration, setLoginOrRegistration] = useState<loginOrRegistrationType>('login')
   const [authError, setAuthError] = useState('')
-
-  const { user } = useTypedSelector(state => state.auth)
 
   const { register, handleSubmit, formState: { errors }, reset } = useForm<FormData>();
 
   const { setUser, showNotification, clearUserOrders } = useActions()
-
   const navigate = useNavigate()
 
   const onSubmit = handleSubmit(data => {
@@ -117,19 +105,30 @@ const AuthPage = ({ onClose }: AuthPageProps) => {
     }
   }
 
+  const handleEnter = (e: KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      onSubmit()
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleEnter)
+    return () => window.removeEventListener('keydown', handleEnter)
+  }, [])
+
   return (
     <div className='min-w-[320px] flex flex-col items-center bg-white rounded-2xl'>
       {user ? (
         <div className='p-4 text-lg flex flex-col items-center'>
-          <AuthIcon className='h-12 w-12 fill-blue-700 mb-2' />
-          <div className='font-medium text-lg'>{user.data.name}</div>
-          <div className='mb-1 font-medium'>{user.data.email}</div>
-          <div className='mb-2 font-medium'>{user.data.phone}</div>
+          <AuthIcon className='sm:h-12 sm:w-12 h-16 w-16 fill-blue-700 mb-2' />
+          <div className='font-medium sm:text-lg text-xl'>{user.data.name}</div>
+          <div className='sm:mb-1 font-medium'>{user.data.email}</div>
+          <div className='mb-3 font-medium'>{user.data.phone}</div>
           <div
             onClick={onGetOrders}
-            className='text-white font-medium px-8 py-1 bg-blue-500 rounded-2xl mb-4'
+            className='text-white font-medium px-8 py-1 bg-blue-500 rounded-2xl sm:mb-4 mb-3'
           >
-            Посмотреть историю заказов
+            История заказов
           </div>
           <div onClick={signOut} className='text-white font-medium px-8 py-1 bg-red-500 rounded-2xl'>Выйти</div>
         </div>

@@ -13,3 +13,5 @@ export interface IIngredient {
   price: number,
   count: number,
 }
+
+export type sortPizzasByType = 'По умолчанию' | 'От дешевых' | 'От дорогих'

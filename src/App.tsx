@@ -44,7 +44,7 @@ function App() {
   }
 
   return (
-    <div className='bg-slate-100 py-4 px-4'>
+    <div className='bg-slate-100 sm:px-4'>
       <div className='fixed z-50 top-3 right-3 flex flex-col'>
         {notifications.map(n => (
           <Notification key={n.id} color={n.color} text={n.text} />

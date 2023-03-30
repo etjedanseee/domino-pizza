@@ -22,9 +22,9 @@ const UserOrders = () => {
   }, [user])
 
   return (
-    <div className='container mx-auto py-20'>
-      <div className='py-4 px-4 rounded-2xl bg-white mb-5'>
-        <div className='text-xl font-bold mb-3'>Ваша история заказов</div>
+    <div className='container mx-auto py-20 max-lg:max-w-none h-screen'>
+      <div className='p-4 rounded-2xl bg-white'>
+        <div className='xs:text-xl text-2xl font-bold mb-3'>Ваша история заказов</div>
         {reversedUserOrders.length > 0 ? (
           <div>
             {reversedUserOrders.map(order => (
@@ -32,7 +32,7 @@ const UserOrders = () => {
             ))}
           </div>
         ) : (
-          <div>Нет заказов</div>
+          <div className='text-lg font-medium'>Нет заказов</div>
         )}
       </div>
     </div>

@@ -3,6 +3,7 @@ import { IIngredient } from '../types/Pizza/IPizza'
 import { ReactComponent as CloseIcon } from '../assets/close.svg'
 import AddButton from '../UI/AddButton'
 import { calcAddedIngredients } from '../utils/calcAddedIngredients'
+import { useActions } from '../hooks/useActions'
 
 interface AdditionalIngredientsProps {
   pizzaIngredients: string[],
@@ -15,6 +16,8 @@ interface AdditionalIngredientsProps {
 const AdditionalIngredients = ({ pizzaIngredients, ingredients, addedIngredients, changeAddedIngredients, updatePrice }: AdditionalIngredientsProps) => {
   const [price, setPrice] = useState(calcAddedIngredients(addedIngredients))
 
+  const { showNotification } = useActions()
+
   const handleAddIngredient = (name: string) => {
     const currentIng = addedIngredients.find(i => i.name === name)
     if (currentIng) {
@@ -25,6 +28,7 @@ const AdditionalIngredients = ({ pizzaIngredients, ingredients, addedIngredients
       } else {
         changeAddedIngredients([...otherIngr])
         setPrice(prev => prev - (currentIng.count * currentIng.price))
+        showNotification({ text: 'Данного ингредиента нет в наличии', color: 'red', time: 1500 })
       }
     } else {
       const currentIng = ingredients.find(i => i.name === name) || ingredients[0]
@@ -44,30 +48,30 @@ const AdditionalIngredients = ({ pizzaIngredients, ingredients, addedIngredients
   }
 
   return (
-    <div className='max-w-lg bg-white p-4 rounded-2xl'>
+    <div className='max-w-lg bg-white sm:p-4 p-2 rounded-2xl overflow-auto'>
       <div className='text-sm mb-3 font-medium uppercase'>Ингредиенты</div>
-      <div className='flex flex-wrap gap-2 mb-5'>
+      <div className='flex flex-wrap gap-2 sm:mb-5 mb-3'>
         {pizzaIngredients.map(ing => (
           <div
             key={ing}
-            className='text-white bg-gray-500 rounded-2xl text-sm font-medium px-4 py-1'
+            className='text-white bg-gray-500 rounded-2xl sm:text-sm text-xs font-medium px-4 py-1'
           >{ing}</div>
         ))}
       </div>
 
-      <div className='text-sm mb-2 font-medium'>Дополнительные ингредиенты</div>
-      <div className='text-sm text-gray-500 mb-5'>Чтобы добавить несколько одинаковых ингредиентов, нажмите на него несколько раз</div>
+      <div className='text-sm font-medium mb-2'>Дополнительные ингредиенты</div>
+      <div className='text-sm text-gray-500 sm:mb-5 mb-3'>Чтобы добавить несколько одинаковых ингредиентов, нажмите на него несколько раз</div>
 
-      <div className='flex flex-wrap gap-2 mb-5'>
+      <div className='flex flex-wrap sm:gap-2 gap-1 mb-5'>
         {ingredients.map(i => (
           <div
             key={i.name}
             className={`${addedIngredients.find(ing => ing.name === i.name) ? 'text-white bg-gray-500' : 'bg-gray-200 text-gray-600'} 
-            rounded-2xl text-sm font-medium relative`}
+            rounded-2xl sm:text-sm text-xs font-medium relative`}
             onClick={() => handleAddIngredient(i.name)}
           >
             <div className={`${addedIngredients.find(ing => ing.name === i.name) ? 'mr-10' : ''} 
-            ${ingredients.find(ing => ing.name === i.name)?.count === 0 ? 'line-through' : ''} px-4 py-1 select-none`}>
+            ${ingredients.find(ing => ing.name === i.name)?.count === 0 ? 'line-through' : ''} sm:px-4 px-3 py-1 select-none`}>
               {i.name}
             </div>
             {addedIngredients.find(ing => ing.name === i.name) && (
@@ -76,7 +80,7 @@ const AdditionalIngredients = ({ pizzaIngredients, ingredients, addedIngredients
                   +{addedIngredients.find(ing => ing.name === i.name)?.count}
                 </div>
                 <div onClick={(e) => handleDeleteIngredient(e, i.name)}>
-                  <CloseIcon className='h-7 w-7 fill-white bg-red-600 rounded-full p-1' />
+                  <CloseIcon className='sm:h-7 sm:w-7 h-6 w-6 fill-white bg-red-600 rounded-full p-1' />
                 </div>
               </div>
             )}

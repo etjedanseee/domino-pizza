@@ -63,7 +63,7 @@ const PizzaItem = ({ pizza, ingredients, showNotification }: IPizzaProps) => {
 
     updateIngredients(ingredients, addedIngredients, false)
     addPizzaToBasket(res)
-    showNotification({ text: `Добавлена ${res.name}`, color: 'green', time: 700 })
+    showNotification({ text: `Добавлена ${res.name}`, color: 'green', time: 1000 })
 
     handleInfoVisible()
     setAddedIngrSum(0)
@@ -87,7 +87,7 @@ const PizzaItem = ({ pizza, ingredients, showNotification }: IPizzaProps) => {
   }, [selectedSize, addedIngrSum])
 
   return (
-    <div className='relative px-4 py-4 border flex flex-col justify-between rounded-2xl bg-white min-h-[400px]'>
+    <div className='relative sm:p-4 p-3 border flex flex-col justify-between rounded-2xl bg-white min-h-[400px]'>
       <img
         src={pizza.image}
         alt={pizza.name}
@@ -96,12 +96,12 @@ const PizzaItem = ({ pizza, ingredients, showNotification }: IPizzaProps) => {
       <div className='flex-1 flex flex-col justify-end'>
         {pizzaInfoVisible
           ? (
-            <div className='absolute left-0 bottom-0 w-full px-4 py-4 bg-opacity-90 bg-white'>
+            <div className='absolute left-0 bottom-0 w-full sm:p-4 p-3 bg-opacity-90 bg-white'>
               <div className='text-gray-700 text-xl font-medium mb-1'>{pizza.name}</div>
-              <div className='text-sm text-gray-500 mb-4'>{pizza.ingredients.join(', ')}</div>
+              <div className='text-sm text-gray-500 sm:mb-4 mb-2'>{pizza.ingredients.join(', ')}</div>
 
               <div
-                className='flex items-center gap-x-2 mb-4'
+                className='flex items-center gap-x-2 sm:mb-4 mb-2'
                 onClick={handleAddIngredientsVisible}
               >
                 <CheeseIcon className='h-6' />

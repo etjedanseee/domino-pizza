@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import BasketAdress from '../components/BasketAdress'
-import BasketForm from '../components/BasketContact'
+import BasketContact from '../components/BasketContact'
 import BasketOrder from '../components/BasketOrder'
 import { useActions } from '../hooks/useActions'
 import { useTypedSelector } from '../hooks/useTypedSelector'
@@ -43,10 +43,9 @@ const Basket = () => {
     }
   }
 
-
   return (
-    <div className='container mx-auto py-20'>
-      <div className='text-3xl font-bold px-4 mb-5'>Моя корзина</div>
+    <div className='container mx-auto xs:py-20 py-16 max-lg:max-w-none'>
+      <div className='sm:text-2xl text-3xl font-bold px-4 sm:mb-5 mb-3'>Моя корзина</div>
       {items.length > 0 ? (
         <BasketOrder
           items={items}
@@ -55,16 +54,18 @@ const Basket = () => {
           deliveryPrice={deliveryPrice}
         />
       )
-        : <div className='py-4 px-4 rounded-2xl bg-white text-2xl font-bold text-gray-600 text-center mb-5'>Корзина пуста</div>
+        : <div className='p-4 rounded-2xl bg-white text-2xl font-bold text-gray-600 text-center mb-5'>Корзина пуста</div>
       }
 
       {!user && (
-        <BasketForm setAnonUserData={setAnonUserData} />
+        <BasketContact setAnonUserData={setAnonUserData} />
       )}
 
       <BasketAdress setAdress={setAdress} />
 
-      <AddButton price={totalSum} title='Оформить заказ' onClick={onCheckOut} />
+      <div className='px-4'>
+        <AddButton price={totalSum} title='Оформить заказ' onClick={onCheckOut} />
+      </div>
     </div>
   )
 }

@@ -64,9 +64,9 @@ const BasketAdress = ({ setAdress }: IBasketAdressProps) => {
   }, [streetError, houseError, flatError, intercomCodeError, deliveryPrice])
 
   return (
-    <div className='py-4 px-4 rounded-2xl bg-white mb-5'>
-      <div className='text-lg font-bold mb-3'>Адрес</div>
-      <form className='flex justify-between gap-x-4 mb-2'>
+    <div className='p-4 rounded-2xl bg-white mb-5'>
+      <div className='sm:text-lg text-xl font-bold mb-3'>Адрес</div>
+      <form className='grid lg:grid-cols-4 md:grid-cols-2 grid-cols-1 justify-between gap-x-4 mb-2 gap-y-2'>
         <div className='w-full'>
           <input
             value={street}
@@ -86,7 +86,6 @@ const BasketAdress = ({ setAdress }: IBasketAdressProps) => {
             onBlur={onHouseBlur}
             placeholder='Введите номер дома'
             className='outline-none placeholder:text-gray-600 text-lg border-2 border-gray-500 w-full rounded-md px-4 py-1'
-            spellCheck="false"
           />
           {(houseError && isHouseDirty) && <div className='text-red-500 text-sm px-4 font-medium'>{houseError}</div>}
         </div>
@@ -98,7 +97,6 @@ const BasketAdress = ({ setAdress }: IBasketAdressProps) => {
             onBlur={onFlatBlur}
             placeholder='Введите номер квартиры'
             className='outline-none placeholder:text-gray-600 text-lg border-2 border-gray-500 w-full rounded-md px-4 py-1'
-            spellCheck="false"
           />
           {(flatError && isFlatDirty) && <div className='text-red-500 text-sm px-4 font-medium'>{flatError}</div>}
         </div>
@@ -110,7 +108,6 @@ const BasketAdress = ({ setAdress }: IBasketAdressProps) => {
             onBlur={onIntercomCodeBlur}
             placeholder='Введите код домофона'
             className='outline-none placeholder:text-gray-600 text-lg border-2 border-gray-500 w-full rounded-md px-4 py-1'
-            spellCheck="false"
           />
           {(intercomCodeError && isIntercomCodeDirty) && <div className='text-red-500 text-sm px-4 font-medium'>{intercomCodeError}</div>}
         </div>

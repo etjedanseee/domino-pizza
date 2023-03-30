@@ -25,3 +25,15 @@ export interface IUserOrder {
   totalSum: number,
   user_id: string | null
 }
+
+export interface FormData {
+  email: string,
+  password: string,
+  phone: string,
+  name: string
+}
+
+export interface singInData {
+  email: string,
+  password: string
+}
