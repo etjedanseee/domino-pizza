@@ -45,9 +45,9 @@ const BasketAdress = ({ setAdress }: IBasketAdressProps) => {
   })
 
   useEffect(() => {
-    const price = flat ? +(Math.random() * (300 - 50) + 50).toFixed(0) : 0
+    const price = house ? +(Math.random() * (300 - 50) + 50).toFixed(0) : 0
     changeDeliveryAdress(price)
-  }, [flat])
+  }, [house])
 
   useEffect(() => {
     if (!streetError && !houseError && !flatError && !intercomCodeError) {

@@ -16,7 +16,7 @@ interface BasketItemProps {
 }
 
 const BasketItem = ({ item, allSum, count, id, onIncrementItem, onDeleteBasketItem }: BasketItemProps) => {
-  const allIngredients = [...item.ingredients].concat([...item.addedIngredients].map(ing => ing.name))
+  const allIngredients = [...item.ingredients].concat([...item.addedIngredients].map(ing => `${ing.name}(${ing.count})`))
   const addedIngrCount = item.addedIngredients.length
 
 
